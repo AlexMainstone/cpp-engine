@@ -8,7 +8,7 @@ void main() {
     sf::RenderWindow window(sf::VideoMode(1280, 720), "cpp-engine");
     
     // TODO abstract scene class
-    GameScene scene(window);
+    GameScene *scene = new GameScene(window);
     
     // Clock that counts time between updates
     sf::Clock delta_clock;
@@ -23,15 +23,17 @@ void main() {
             }
             
             // Pass Event to scene
-            // scene->handleEvent(e);
+            scene->handleEvent(e);
         }
         
         // Update & restart clock
-        // scene->update(delta_clock.restart().asSeconds());
+        scene->update(delta_clock.restart().asSeconds());
         
         // Render
         window.clear();
-        // scene->render();
+        scene->render();
         window.display();
     }
+    
+    delete scene;
 }

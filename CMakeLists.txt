@@ -3,9 +3,6 @@ project(cpp-engine)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
-SET (CMAKE_CXX_FLAGS_DEBUG "-g -D_DEBUG_")
-SET (CMAKE_CXX_FLAGS_RELEASE "-O4 -DNDEBUG")
-
 # C++17
 set(CMAKE_CXX_STANDARD 17)
 
@@ -15,6 +12,9 @@ set(SOURCES
     
     # Scenes
     src/Scenes/GameScene.cpp
+    
+    # Resources
+    src/Resources/TileManager.cpp
     )
 
 
