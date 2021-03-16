@@ -22,10 +22,10 @@ set(SOURCES
 find_package(SFML 2.5 REQUIRED audio graphics window system)
 # find_package(TMXLITE REQUIRED)
 
-set(ENTT_INCLUDE "${CMAKE_SOURCE_DIR}/libs/entt-master/include" CACHE PATH "Path to include directory of EnTT")
+set(ENTT_INCLUDE "${CMAKE_SOURCE_DIR}/libs/entt-master/src" CACHE PATH "Path to include directory of EnTT")
 
 add_executable(cpp-engine ${SOURCES})
 
-include_directories(cpp-engine PRIVATE ${CMAKE_SOURCE_DIR}/include ${ENTT_INCLUDE} )
+include_directories(cpp-engine PRIVATE ${CMAKE_SOURCE_DIR}/include ${ENTT_INCLUDE})
 
 target_link_libraries(cpp-engine sfml-audio sfml-graphics sfml-window sfml-system sfml-network)

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <entt/entt.hpp>
+// #include <entt/entt.hpp>
 
 class GameScene {
     public:
