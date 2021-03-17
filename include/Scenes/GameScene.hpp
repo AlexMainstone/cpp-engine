@@ -5,6 +5,7 @@
 
 #include "Components/BasicComponents.hpp"
 #include "Resources/TileManager.hpp"
+#include "Resources/MapLoader.hpp"
 
 class GameScene {
     public:
@@ -19,4 +20,6 @@ class GameScene {
         entt::registry registry;
         
         TileManager tilemanager;
+        
+        Map *map;
 };

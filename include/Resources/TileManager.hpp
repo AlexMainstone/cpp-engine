@@ -20,6 +20,7 @@ class TileManager {
     public: 
         TileManager(int tile_size);
 
+        int getTileSize();
         void load(const char *path);
         
         void draw(sf::RenderTarget &target, int tile, float x, float y);
