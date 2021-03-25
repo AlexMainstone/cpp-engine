@@ -7,9 +7,10 @@
 #include <vector>
 
 #include "Resources/TileManager.hpp"
+#include "Resources/TextureLoader.hpp"
 #include "World/Map.hpp"
     
 class MapLoader {
     public:
-        Map *load(std::string path);
+        Map *load(std::string path, texture_cache &tcache);
 };

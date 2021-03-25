@@ -1,11 +1,11 @@
 #include "World/Map.hpp"
 
-Map::Map(TileManager *manager) {
-    this->tile_manager = manager;
+Map::Map(TextureKey texturekey, texture_cache &tcache) : tcache(tcache) {
+    this->texturekey = texturekey;
 }
 
 Map::~Map() {
-    delete tile_manager;
+
 }
 
 void Map::addLayer(std::vector<std::vector<int>> layer) {
@@ -39,12 +39,23 @@ void Map::drawCollisionMap(sf::RenderTarget &target) {
 }
 
 void Map::updateTextures() {
+    sf::Sprite drawsprite;
     for(int z = 0; z < map_data.size(); z++) {
         sf::RenderTexture rtex;
         rtex.create(map_data[z].size() * 16, map_data[z][0].size() * 16);
         for(int x = 0; x < map_data[z].size(); x++) {
             for(int y = 0; y < map_data[z][x].size(); y++) {
-                tile_manager->draw(rtex, map_data[z][x][y], x*16, y*16);
+                // TODO: This could use speeding up now, a lot of tileset metadata could be stored before hand
+                KeyItem itm =  texturekey.getHash(map_data[z][x][y]);
+                auto handle = tcache.handle(itm.hash);
+                int tile = map_data[z][x][y] - itm.start;
+                if(tile == -1) continue;
+                
+                drawsprite.setTexture(handle->value);
+                drawsprite.setPosition(x * 16, y * 16);
+                int tiles_wide = (handle->value.getSize().x / 16);
+                drawsprite.setTextureRect(sf::IntRect((tile % tiles_wide) * 16, std::floor(tile / tiles_wide) * 16, 16, 16));
+                rtex.draw(drawsprite);
             }
         }
         
@@ -65,7 +76,7 @@ void Map::drawTiles(sf::RenderTarget &target) {
     for(int z = 0; z < map_data.size(); z++) {
         for(int x = 0; x < map_data[z].size(); x++) {
             for(int y = 0; y < map_data[z][x].size(); y++) {
-                tile_manager->draw(target, map_data[z][x][y], x*16, y*16);
+                // tile_manager->draw(target, map_data[z][x][y], x*16, y*16);
             }
         }
     }

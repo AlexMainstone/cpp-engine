@@ -1,7 +1,7 @@
 #include "Resources/MapLoader.hpp"
 
 #include<iostream>
-Map *MapLoader::load(std::string path) {
+Map *MapLoader::load(std::string path, texture_cache &tcache) {
     // Calculate working directory
     std::string working_dir = path;
     working_dir.erase(working_dir.rfind("/")+1, working_dir.size());
@@ -14,18 +14,18 @@ Map *MapLoader::load(std::string path) {
     // Get list of resources
     tinyxml2::XMLElement *map = doc.FirstChildElement("map");
     
-    // Load all tilesets
-    TileManager *manager = new TileManager(16);
-    
     // Iterate through tilesets & load
+    TextureKey texturekey;
     for(tinyxml2::XMLElement *child = map->FirstChildElement("tileset"); child != NULL; child = child->NextSiblingElement("tileset")) {
+        // New loader
         std::string load_path = working_dir + std::string(child->FirstChildElement("image")->Attribute("source"));
-        std::cout << "TILESET LOADED: " << load_path << std::endl;
-        manager->load(load_path.c_str());
+        tcache.load<texture_loader>(entt::hashed_string{child->Attribute("name")}, load_path.c_str());
+        texturekey.addKey(child->IntAttribute("firstgid"), entt::hashed_string{child->Attribute("name")});
+        std::cout << "TILESET LOADED (" << child->Attribute("name") << "): " << load_path << std::endl;
     }
     
     // Iterate through layers
-    Map *game_map = new Map(manager);
+    Map *game_map = new Map(texturekey, tcache);
     for(tinyxml2::XMLElement *child = map->FirstChildElement("layer"); child != NULL; child = child->NextSiblingElement("layer")) {
         // Width & Height of layer
         int width = child->IntAttribute("width");

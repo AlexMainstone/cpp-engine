@@ -1,10 +1,10 @@
 #include "Scenes/GameScene.hpp"
 
 GameScene::GameScene(sf::RenderWindow &window) : window(window), tilemanager(16) {
-    tcache.load<texture_loader>(entt::hashed_string{"name"}, "/path");
+    // tcache.load<texture_loader>(entt::hashed_string{"name"}, "/path");
 
     MapLoader maploader;
-    map = maploader.load("../assets/DawnLike/Examples/Dungeon.tmx");
+    map = maploader.load("../assets/DawnLike/Examples/Dungeon.tmx", tcache);
     
     control_system = new ControllerSystem(registry, map, window);
 
