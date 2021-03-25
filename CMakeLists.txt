@@ -16,9 +16,17 @@ set(SOURCES
     # Resources
     src/Resources/TileManager.cpp
     src/Resources/MapLoader.cpp
+    src/Resources/TextureLoader.cpp
     
     # World
     src/World/Map.cpp
+    src/World/Pathfinding.cpp
+    
+    # UI
+    src/UI/ControllableView.cpp
+    
+    # Systems
+    src/System/ControllerSystem.cpp
     )
 
 

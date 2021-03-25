@@ -38,7 +38,8 @@ Map *MapLoader::load(std::string path) {
         std::vector<std::vector<int>> tile_data(width, std::vector<int> (height, 0));
         std::stringstream s_stream(raw_tile_data);
 
-        int x = 0;
+        //TODO: Speed this up 
+        int x = 0; 
         int y = 0;
         while(s_stream.good()) {
             std::string substr;
@@ -54,8 +55,25 @@ Map *MapLoader::load(std::string path) {
                 }
             }
         }
+
+        //TODO: this could be done better
+        // if collision layer
+        std::cout << "Loaded Layer: " << child->Attribute("name") << std::endl;
+        if(!std::strcmp(child->Attribute("name"), "Collision")) {
+            std::vector<std::vector<bool>> collision_map;
+            for(auto x : tile_data) {
+                std::vector<bool> row;
+                for(auto y : x) {
+                    row.push_back((y != 0));
+                }
+                collision_map.push_back(row);
+            }
+            game_map->setCollisionMap(collision_map);
+            continue;
+        }
         
         game_map->addLayer(tile_data);
     }
+    
     return game_map;
 }

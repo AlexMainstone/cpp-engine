@@ -6,10 +6,13 @@
 #include "Components/BasicComponents.hpp"
 #include "Resources/TileManager.hpp"
 #include "Resources/MapLoader.hpp"
+#include "Resources/TextureLoader.hpp"
+#include "System/ControllerSystem.hpp"
 
 class GameScene {
     public:
         GameScene(sf::RenderWindow &window);
+        ~GameScene();
         
         void handleEvent(sf::Event e);
         void update(float dt);
@@ -22,4 +25,8 @@ class GameScene {
         TileManager tilemanager;
         
         Map *map;
+        
+        ControllerSystem *control_system;
+        
+        texture_cache tcache{};
 };
