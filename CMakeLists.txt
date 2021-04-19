@@ -20,13 +20,14 @@ set(SOURCES
     
     # World
     src/World/Map.cpp
-    src/World/Pathfinding.cpp
+    src/World/DijkstraMap.cpp
     
     # UI
     src/UI/ControllableView.cpp
     
     # Systems
     src/System/ControllerSystem.cpp
+    src/System/EnemySystem.cpp
     )
 
 

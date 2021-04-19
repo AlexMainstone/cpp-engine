@@ -11,6 +11,8 @@ class ControllerSystem {
         ControllerSystem(entt::registry &reg, Map *map, sf::RenderWindow &window);
         void update(float dt);
         void handleEvent(sf::Event e);
+        bool isPlayerTurn();
+        void setPlayerTurn(bool turn);
         
         sf::View getView();
     private:
@@ -24,4 +26,6 @@ class ControllerSystem {
         //TODO: move these to a dedicated class, all entities will need it
         bool moving;
         float turn_progress;
+        
+        bool player_turn;
 };

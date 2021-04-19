@@ -8,6 +8,7 @@
 #include "Resources/MapLoader.hpp"
 #include "Resources/TextureLoader.hpp"
 #include "System/ControllerSystem.hpp"
+#include "System/EnemySystem.hpp"
 
 class GameScene {
     public:
@@ -27,6 +28,7 @@ class GameScene {
         Map *map;
         
         ControllerSystem *control_system;
+        EnemySystem *enemy_system;
         
         texture_cache tcache{};
 };

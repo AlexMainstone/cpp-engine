@@ -5,6 +5,8 @@ GameScene::GameScene(sf::RenderWindow &window) : window(window), tilemanager(16)
 
     MapLoader maploader;
     map = maploader.load("../assets/DawnLike/Examples/Dungeon.tmx", tcache);
+    map->astar(sf::Vector2i(2, 2), sf::Vector2i(11, 11));
+    map->raycast(1, 1, 8, 11);
     
     control_system = new ControllerSystem(registry, map, window);
 
@@ -14,11 +16,18 @@ GameScene::GameScene(sf::RenderWindow &window) : window(window), tilemanager(16)
     registry.emplace<render_tile>(player, 10);
     registry.emplace<controlled>(player);
     
+    enemy_system = new EnemySystem(registry, map);
+    
+    const auto enmy = registry.create();
+    registry.emplace<position>(enmy, 11.0f, 13.0f, 0, 0);
+    registry.emplace<render_tile>(enmy, 11);
+    registry.emplace<enemy>(enmy);
 }
 
 GameScene::~GameScene() {
     delete map;
     delete control_system;
+    delete enemy_system;
 }
 
 void GameScene::handleEvent(sf::Event e) {
@@ -27,6 +36,12 @@ void GameScene::handleEvent(sf::Event e) {
 
 void GameScene::update(float dt) {
     control_system->update(dt);
+    
+    if(!control_system->isPlayerTurn()) {
+        enemy_system->takeTurn();
+        control_system->setPlayerTurn(true);
+    }
+    enemy_system->update(dt);
 }
 
 void GameScene::render() {

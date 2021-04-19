@@ -8,6 +8,15 @@ ControllerSystem::ControllerSystem(entt::registry &reg, Map *map, sf::RenderWind
     
     moving = false;
     turn_progress = 0;
+    player_turn = true;
+}
+
+bool ControllerSystem::isPlayerTurn() {
+    return player_turn;
+}
+
+void ControllerSystem::setPlayerTurn(bool turn) {
+    player_turn = turn;
 }
 
 void ControllerSystem::update(float dt) {
@@ -47,7 +56,7 @@ void ControllerSystem::update(float dt) {
 }
 
 void ControllerSystem::handleEvent(sf::Event e) {
-    if(e.type == sf::Event::KeyPressed && !moving) {
+    if(player_turn && e.type == sf::Event::KeyPressed && !moving) {
         if(e.key.code == sf::Keyboard::W) {
             move(0, -1);
         }else if(e.key.code == sf::Keyboard::A) {
@@ -62,11 +71,14 @@ void ControllerSystem::handleEvent(sf::Event e) {
 
 void ControllerSystem::move(int x, int y) {
     moving = true;
+    player_turn = false; // Sets the player turn to false    
     turn_progress = 0;
     auto view = reg.view<position, const controlled>();
     for(auto [entity, pos, cntrl] : view.each()) {
         if (map->checkCollision(pos.x + x, pos.y + y)) {
             moving = false;
+            pos.target_x = 0;
+            pos.target_y = 0;
             continue;
         }
         pos.target_x = x;
