@@ -24,6 +24,7 @@ set(SOURCES
     
     # UI
     src/UI/ControllableView.cpp
+    src/UI/DialogueWindow.cpp
     
     # Systems
     src/System/ControllerSystem.cpp

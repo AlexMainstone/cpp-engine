@@ -1,6 +1,6 @@
 #include "Scenes/GameScene.hpp"
 
-GameScene::GameScene(sf::RenderWindow &window) : window(window), tilemanager(16) {
+GameScene::GameScene(sf::RenderWindow &window) : window(window), dialogue_window(window), tilemanager(16) {
     // tcache.load<texture_loader>(entt::hashed_string{"name"}, "/path");
 
     MapLoader maploader;
@@ -22,6 +22,8 @@ GameScene::GameScene(sf::RenderWindow &window) : window(window), tilemanager(16)
     registry.emplace<position>(enmy, 11.0f, 13.0f, 0, 0);
     registry.emplace<render_tile>(enmy, 11);
     registry.emplace<enemy>(enmy);
+    
+    ui_view = window.getView();
 }
 
 GameScene::~GameScene() {
@@ -32,6 +34,7 @@ GameScene::~GameScene() {
 
 void GameScene::handleEvent(sf::Event e) {
     control_system->handleEvent(e);
+    dialogue_window.handleEvent(e);
 }
 
 void GameScene::update(float dt) {
@@ -54,4 +57,7 @@ void GameScene::render() {
     for(auto [entity, pos, t] : view.each()) {
         tilemanager.draw(window, t.tile, pos.x * tilemanager.getTileSize(), pos.y * tilemanager.getTileSize());
     }
+    
+    window.setView(ui_view);
+    dialogue_window.render(window);
 }

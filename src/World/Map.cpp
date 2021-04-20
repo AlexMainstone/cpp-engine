@@ -145,7 +145,7 @@ float Map::heuristic(sf::Vector2i start, sf::Vector2i end) {
 
 // Bresenham's line algorithm adapted from rosetta code
 bool Map::raycast(int startx, int starty, int endx, int endy) {
-    const bool steep = (std::fabs(endy - starty) > std::fabs(endx - startx));
+    const bool steep = (std::abs(endy - starty) > std::abs(endx - startx));
     
     // Check that the points are in the correct order
     if(steep) {

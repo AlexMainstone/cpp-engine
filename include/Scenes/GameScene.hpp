@@ -10,6 +10,8 @@
 #include "System/ControllerSystem.hpp"
 #include "System/EnemySystem.hpp"
 
+#include "UI/DialogueWindow.hpp"
+
 class GameScene {
     public:
         GameScene(sf::RenderWindow &window);
@@ -27,8 +29,12 @@ class GameScene {
         
         Map *map;
         
+        DialogueWindow dialogue_window;
+        
         ControllerSystem *control_system;
         EnemySystem *enemy_system;
         
         texture_cache tcache{};
+        
+        sf::View ui_view;
 };
