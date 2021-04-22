@@ -55,6 +55,25 @@ void ControllerSystem::update(float dt) {
     }
 }
 
+bool ControllerSystem::solidEntity(int x, int y) {
+    auto view = reg.view<position, solid>();
+    for(auto [entity, position] : view.each()) {
+        if(position.x == x && position.y == y) {
+            if(reg.any_of<interactable>(entity)) {
+                // TODO interact
+            }else if(reg.any_of<enemy>(entity)) {
+                auto c = reg.get<creature>(entity);
+                c.hp -= 1;
+                if(c.hp <= 0) {
+                    reg.destroy(entity);
+                }
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
 void ControllerSystem::handleEvent(sf::Event e) {
     if(player_turn && e.type == sf::Event::KeyPressed && !moving) {
         if(e.key.code == sf::Keyboard::W) {
@@ -75,7 +94,7 @@ void ControllerSystem::move(int x, int y) {
     turn_progress = 0;
     auto view = reg.view<position, const controlled>();
     for(auto [entity, pos, cntrl] : view.each()) {
-        if (map->checkCollision(pos.x + x, pos.y + y)) {
+        if (map->checkCollision(pos.x + x, pos.y + y) | solidEntity(pos.x + x, pos.y + y)) {
             moving = false;
             pos.target_x = 0;
             pos.target_y = 0;

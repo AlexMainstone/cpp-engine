@@ -16,9 +16,16 @@ class DialogueWindow {
 
         void handleEvent(sf::Event e);
         
+        
         void addText(std::string name, std::string text, sf::Color name_color = sf::Color::White);
+        void addTexti(std::string name, std::string text, int r, int g, int b);
         void addOption(std::string option);
+        void clearOptions();
         void jumpToEnd();
+        
+        int getSelected();
+       
+        void setVisible(bool v);
         
         void render(sf::RenderTarget &target);
     private:
@@ -32,4 +39,8 @@ class DialogueWindow {
         std::vector<sf::Text> dialogue_option;
         
         int scroll, height;
+        
+        bool visible;
+        
+        int selected;
 };

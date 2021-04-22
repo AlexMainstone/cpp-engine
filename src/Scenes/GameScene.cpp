@@ -1,8 +1,8 @@
 #include "Scenes/GameScene.hpp"
 
-GameScene::GameScene(sf::RenderWindow &window) : window(window), dialogue_window(window), tilemanager(16) {
+GameScene::GameScene(sf::RenderWindow &window) : window(window), dialogue_window(new DialogueWindow(window)), tilemanager(16), dscript(dialogue_window) {
     // tcache.load<texture_loader>(entt::hashed_string{"name"}, "/path");
-
+    
     MapLoader maploader;
     map = maploader.load("../assets/DawnLike/Examples/Dungeon.tmx", tcache);
     map->astar(sf::Vector2i(2, 2), sf::Vector2i(11, 11));
@@ -22,8 +22,12 @@ GameScene::GameScene(sf::RenderWindow &window) : window(window), dialogue_window
     registry.emplace<position>(enmy, 11.0f, 13.0f, 0, 0);
     registry.emplace<render_tile>(enmy, 11);
     registry.emplace<enemy>(enmy);
+    registry.emplace<creature>(enmy, 1, 1);
+    registry.emplace<solid>(enmy);
     
     ui_view = window.getView();
+
+    dscript.load("../assets/scripts/test.lua");
 }
 
 GameScene::~GameScene() {
@@ -34,7 +38,7 @@ GameScene::~GameScene() {
 
 void GameScene::handleEvent(sf::Event e) {
     control_system->handleEvent(e);
-    dialogue_window.handleEvent(e);
+    dialogue_window->handleEvent(e);
 }
 
 void GameScene::update(float dt) {
@@ -45,12 +49,13 @@ void GameScene::update(float dt) {
         control_system->setPlayerTurn(true);
     }
     enemy_system->update(dt);
+    
+    dscript.update(dt);
 }
 
 void GameScene::render() {
     window.setView(control_system->getView());
     map->draw(window);
-    map->drawCollisionMap(window);
     
     // Draw all tiles with a position and renderable tile
     auto view = registry.view<const position, const render_tile>();
@@ -59,5 +64,5 @@ void GameScene::render() {
     }
     
     window.setView(ui_view);
-    dialogue_window.render(window);
+    dialogue_window->render(window);
 }

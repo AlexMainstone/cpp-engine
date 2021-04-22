@@ -75,5 +75,7 @@ Map *MapLoader::load(std::string path, texture_cache &tcache) {
         game_map->addLayer(tile_data);
     }
     
+    game_map->updateTextures();
+
     return game_map;
 }

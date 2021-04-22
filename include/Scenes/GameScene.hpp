@@ -11,6 +11,7 @@
 #include "System/EnemySystem.hpp"
 
 #include "UI/DialogueWindow.hpp"
+#include "Resources/DialogueScript.hpp"
 
 class GameScene {
     public:
@@ -29,7 +30,7 @@ class GameScene {
         
         Map *map;
         
-        DialogueWindow dialogue_window;
+        DialogueWindow *dialogue_window;
         
         ControllerSystem *control_system;
         EnemySystem *enemy_system;
@@ -37,4 +38,6 @@ class GameScene {
         texture_cache tcache{};
         
         sf::View ui_view;
+        
+        DialogueScript dscript;
 };

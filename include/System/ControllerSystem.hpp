@@ -16,6 +16,8 @@ class ControllerSystem {
         
         sf::View getView();
     private:
+        bool solidEntity(int x, int y);
+
         void move(int x, int y);
         entt::registry &reg;
         

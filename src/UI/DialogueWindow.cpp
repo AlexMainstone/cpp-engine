@@ -11,20 +11,35 @@ DialogueWindow::DialogueWindow(sf::RenderWindow &window) {
     font.loadFromFile("../assets/fonts/BenchNine-Regular.ttf");
     name_text.setFont(font);
     name_text.setCharacterSize(26);
+    name_text.setOutlineColor(sf::Color::White);
+    name_text.setOutlineThickness(1.f);
     name_text.setStyle(sf::Text::Bold);
     
     true_text.setFont(font);
     true_text.setCharacterSize(24);
     true_text.setLineSpacing(0.75);
 
-    addText("Jeff Bezos", "Hello, world! My name is Jeoffrey Bezos, Amazon CEO and amazing dude. Please stare into my bald scalp and admire your own reflection!", sf::Color(150, 40, 40));
-    addText("Mark ZUCC", "No thank you Jeff, I am okay!", sf::Color(40, 40, 200));
+    // addText("Jeff Bezos", "Hello, world! My name is Jeoffrey Bezos, Amazon CEO and amazing dude. Please stare into my bald scalp and admire your own reflection!", sf::Color(255, 80, 80));
+    // addText("Mark ZUCC", "No thank you Jeff, I am okay!", sf::Color(80, 80, 255));
 
-    addOption("Hello there! I am Alexander Mainstone, best programmer in the world and AI specialist. How do you do?");
-    addOption("Kill me. I do not want to continue my painful existance on this planet. Thank you.");
-    addOption("What!?");
-    jumpToEnd();
+    // addOption("Hello there! I am alec, best programmer in the world and AI specialist. How do you do?");
+    // addOption("Kill me. I do not want to continue my painful existance on this planet. Thank you.");
+    // addOption("What!?");
+    // jumpToEnd();
     
+    visible = true;
+    
+    selected = 0;
+}
+
+void DialogueWindow::clearOptions() {
+    dialogue_option.clear();
+}
+
+int DialogueWindow::getSelected() {
+    int out = selected;
+    selected = 0;
+    return out;
 }
 
 void DialogueWindow::jumpToEnd() {
@@ -102,8 +117,19 @@ void DialogueWindow::addOption(std::string option) {
     dialogue_option.push_back(text);
 }
 
-#include <iostream>
+void DialogueWindow::setVisible(bool v) {
+    visible = v;
+}
+
+void DialogueWindow::addTexti(std::string name, std::string text, int r, int g, int b) {
+    addText(name, text, sf::Color(r,g,b));
+}
+
 void DialogueWindow::handleEvent(sf::Event e) {
+    if(!visible) {
+        return;
+    }
+
     if(e.type == sf::Event::MouseMoved) {
         for(int i = 0; i < dialogue_option.size(); i++) {
             if(dialogue_option[i].getGlobalBounds().contains(e.mouseMove.x, e.mouseMove.y)) {
@@ -121,14 +147,19 @@ void DialogueWindow::handleEvent(sf::Event e) {
     } else if(e.type == sf::Event::MouseButtonPressed) {
         for(int i = 0; i < dialogue_option.size(); i++) {
             if(dialogue_option[i].getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y)) {
-                addText("You", dialogue_option[i].getString().substring(3, dialogue_option[i].getString().getSize()));
+                addText("You", dialogue_option[i].getString().substring(3, dialogue_option[i].getString().getSize()), sf::Color(150,150,150));
                 jumpToEnd();
+                selected = i + 1;
             }
         }
     }
 }
 
 void DialogueWindow::render(sf::RenderTarget &target) {
+    if(!visible) {
+        return;
+    }
+
     target.draw(background_shape);
 
     int y = scroll;

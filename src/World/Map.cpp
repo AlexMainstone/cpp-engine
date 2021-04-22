@@ -11,7 +11,6 @@ Map::~Map() {
 void Map::addLayer(std::vector<std::vector<int>> layer) {
     map_data.push_back(layer);
     map_textures.push_back(sf::Texture());
-    updateTextures();
 }
 
 void Map::setCollisionMap(std::vector<std::vector<bool>> map) {
@@ -38,6 +37,7 @@ void Map::drawCollisionMap(sf::RenderTarget &target) {
 
 }
 
+#include<iostream>
 void Map::updateTextures() {
     sf::Sprite drawsprite;
     for(int z = 0; z < map_data.size(); z++) {
@@ -57,6 +57,9 @@ void Map::updateTextures() {
                 drawsprite.setTextureRect(sf::IntRect((tile % tiles_wide) * 16, std::floor(tile / tiles_wide) * 16, 16, 16));
                 rtex.draw(drawsprite);
             }
+        }
+        if(z == 0) {
+            drawCollisionMap(rtex);
         }
         
         rtex.display();

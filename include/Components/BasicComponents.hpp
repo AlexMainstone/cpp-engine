@@ -21,6 +21,9 @@ struct enemy {
     int spotted_y;
 };
 
+struct interactable {};
+struct solid {};
+
 struct position {
     float x;
     float y;
