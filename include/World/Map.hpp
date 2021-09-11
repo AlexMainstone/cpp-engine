@@ -27,11 +27,11 @@ class Map { //NOTE: maybe should implement some kind of chunk system for larger 
         ~Map();
         void addLayer(std::vector<std::vector<int>> layer);
 
-        void setCollisionMap(std::vector<std::vector<bool>> map);
-        bool checkCollision(int x, int y);
+        void setCollisionMap(std::vector<std::vector<int>> map);
+        int checkCollision(int x, int y);
         
         void updateTextures();
-        void draw(sf::RenderTarget &target);
+        void draw(sf::RenderTarget &target, const sf::RenderStates &states = sf::RenderStates::Default);
         
         void drawCollisionMap(sf::RenderTarget &target);
         
@@ -42,7 +42,7 @@ class Map { //NOTE: maybe should implement some kind of chunk system for larger 
         std::vector<sf::Vector2i> neighbors(int x, int y);
         // Layer - Column - Row
         std::vector<std::vector<std::vector<int>>> map_data;
-        std::vector<std::vector<bool>> collision_map;
+        std::vector<std::vector<int>> collision_map;
         
         std::vector<sf::Texture> map_textures;
         

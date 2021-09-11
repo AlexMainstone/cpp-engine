@@ -8,26 +8,18 @@ DialogueWindow::DialogueWindow(sf::RenderWindow &window) {
     background_shape.setOutlineThickness(8.f);
     
     
-    font.loadFromFile("../assets/fonts/BenchNine-Regular.ttf");
+    font.loadFromFile("../assets/fonts/Silver.ttf");
     name_text.setFont(font);
-    name_text.setCharacterSize(26);
+    name_text.setCharacterSize(36);
     name_text.setOutlineColor(sf::Color::White);
     name_text.setOutlineThickness(1.f);
     name_text.setStyle(sf::Text::Bold);
     
     true_text.setFont(font);
-    true_text.setCharacterSize(24);
+    true_text.setCharacterSize(34);
     true_text.setLineSpacing(0.75);
 
-    // addText("Jeff Bezos", "Hello, world! My name is Jeoffrey Bezos, Amazon CEO and amazing dude. Please stare into my bald scalp and admire your own reflection!", sf::Color(255, 80, 80));
-    // addText("Mark ZUCC", "No thank you Jeff, I am okay!", sf::Color(80, 80, 255));
-
-    // addOption("Hello there! I am alec, best programmer in the world and AI specialist. How do you do?");
-    // addOption("Kill me. I do not want to continue my painful existance on this planet. Thank you.");
-    // addOption("What!?");
-    // jumpToEnd();
-    
-    visible = true;
+    visible = false;
     
     selected = 0;
 }
@@ -69,6 +61,11 @@ void DialogueWindow::jumpToEnd() {
     }
 }
 
+void DialogueWindow::resize(int w, int h) {
+    background_shape.setSize(sf::Vector2f(500, h));
+    //TODO change jumpto position
+}
+
 void DialogueWindow::addText(std::string name, std::string text, sf::Color name_color) {
     std::istringstream iss(text);
     std::string ctext = "";
@@ -94,7 +91,7 @@ void DialogueWindow::addText(std::string name, std::string text, sf::Color name_
 void DialogueWindow::addOption(std::string option) {
     sf::Text text;
     text.setFont(font);
-    text.setCharacterSize(22);
+    text.setCharacterSize(34);
     text.setFillColor(sf::Color(216, 143, 17));
     text.setLineSpacing(0.75);
     

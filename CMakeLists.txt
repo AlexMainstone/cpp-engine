@@ -27,9 +27,11 @@ set(SOURCES
     # UI
     src/UI/ControllableView.cpp
     src/UI/DialogueWindow.cpp
+    src/UI/InventoryWindow.cpp
     
     # Systems
     src/System/ControllerSystem.cpp
+    src/System/ChemistrySystem.cpp
     src/System/EnemySystem.cpp
     )
 

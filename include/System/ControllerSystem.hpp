@@ -14,6 +14,8 @@ class ControllerSystem {
         bool isPlayerTurn();
         void setPlayerTurn(bool turn);
         
+        void resize(int w, int h);
+        
         sf::View getView();
     private:
         bool solidEntity(int x, int y);

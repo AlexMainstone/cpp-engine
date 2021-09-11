@@ -13,11 +13,11 @@ void Map::addLayer(std::vector<std::vector<int>> layer) {
     map_textures.push_back(sf::Texture());
 }
 
-void Map::setCollisionMap(std::vector<std::vector<bool>> map) {
+void Map::setCollisionMap(std::vector<std::vector<int>> map) {
     collision_map = map;
 }
 
-bool Map::checkCollision(int x, int y) {
+int Map::checkCollision(int x, int y) {
     return collision_map[x][y];
 }
 
@@ -67,11 +67,11 @@ void Map::updateTextures() {
     }
 }
 
-void Map::draw(sf::RenderTarget &target)  {
+void Map::draw(sf::RenderTarget &target, const sf::RenderStates &states)  {
     sf::Sprite map_sprite;
     for(auto t : map_textures) {
         map_sprite.setTexture(t);
-        target.draw(map_sprite);
+        target.draw(map_sprite, states);
     }
 }
 
@@ -172,9 +172,9 @@ bool Map::raycast(int startx, int starty, int endx, int endy) {
     
     for(int x = startx; x <= maxX; x++) {
         if(steep) {
-            if(collision_map[y][x]) return true;
+            if(collision_map[y][x] == 1) return true;
         } else {
-            if(collision_map[x][y]) return true;
+            if(collision_map[x][y] == 1) return true;
         }
         
         error -= dy;

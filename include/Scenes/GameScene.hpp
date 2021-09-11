@@ -11,6 +11,7 @@
 #include "System/EnemySystem.hpp"
 
 #include "UI/DialogueWindow.hpp"
+#include "UI/InventoryWindow.hpp"
 #include "Resources/DialogueScript.hpp"
 
 class GameScene {
@@ -21,6 +22,7 @@ class GameScene {
         void handleEvent(sf::Event e);
         void update(float dt);
         void render();
+        void resize(int w, int h);
     private:
         sf::RenderWindow &window;
         
@@ -40,4 +42,7 @@ class GameScene {
         sf::View ui_view;
         
         DialogueScript dscript;
+        
+        InventoryWindow invwindow;
+        
 };

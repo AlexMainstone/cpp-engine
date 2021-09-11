@@ -2,10 +2,21 @@ function nextChapter()
     clear_options()
     add_text("Jeff Bezos", "moving on!", 255, 0, 0)
     add_option("No, don't!");
+    jump_end()
     coroutine.yield()
-    add_text("Jeff Bezos", "Yes! Moving on!", 255, 0, 0)
-    clear_options()
-    add_option("Okay...")
+    
+    while true do
+        add_text("Jeff Bezos", "Yes! Moving on!", 255, 0, 0)
+        clear_options()
+        add_option("Okay...")
+        add_option("No! No moving on!")
+        jump_end()
+        coroutine.yield()
+        if result == 1 then
+            close_dialogue(false)
+            break
+        end
+    end
 end
 
 function start()
@@ -17,17 +28,14 @@ function start()
     add_option("I love you Jeff Bezos, I've loved you for years!")
     
     jump_end()
-    -- wait for response
-    print("pause")
     coroutine.yield()
-    print("resume")
-    -- Get response
     
     clear_options()
     
     if result == 1 then
         add_text("Jeff Bezos", "Please go to amazon.com/prime, I do not handle individual subscriptions...", 255, 0, 0)
         add_option('Okay, thank you.')
+        jump_end()
         coroutine.yield()
         nextChapter()
     elseif result == 2 then

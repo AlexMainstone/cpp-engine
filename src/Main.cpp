@@ -6,6 +6,7 @@ void main() {
     
     // Create Window
     sf::RenderWindow window(sf::VideoMode(1280, 720), "cpp-engine");
+    bool fullscreen = false;
     
     // TODO abstract scene class
     GameScene *scene = new GameScene(window);
@@ -20,8 +21,18 @@ void main() {
             // Check if window closed
             if(e.type == sf::Event::Closed) {
                 window.close();
+            } if(e.type == sf::Event::KeyPressed) {
+                if(e.key.code == sf::Keyboard::Enter && sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+                    if(fullscreen) {
+                        window.create(sf::VideoMode::getDesktopMode(), "cpp-engine");
+                        scene->resize(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
+                    } else {
+                        window.create(sf::VideoMode::getFullscreenModes()[0], "cpp-engine", sf::Style::Fullscreen);
+                        scene->resize(sf::VideoMode::getFullscreenModes()[0].width, sf::VideoMode::getFullscreenModes()[0].height);
+                    }
+                    fullscreen =  !fullscreen;
+                }
             }
-            
             // Pass Event to scene
             scene->handleEvent(e);
         }
@@ -30,7 +41,7 @@ void main() {
         scene->update(delta_clock.restart().asSeconds());
         
         // Render
-        window.clear();
+        window.clear(sf::Color(20,12,28));
         scene->render();
         window.display();
     }

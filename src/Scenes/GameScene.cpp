@@ -28,6 +28,7 @@ GameScene::GameScene(sf::RenderWindow &window) : window(window), dialogue_window
     ui_view = window.getView();
 
     dscript.load("../assets/scripts/test.lua");
+    
 }
 
 GameScene::~GameScene() {
@@ -37,11 +38,23 @@ GameScene::~GameScene() {
 }
 
 void GameScene::handleEvent(sf::Event e) {
+    invwindow.handleEvent(e);
     control_system->handleEvent(e);
     dialogue_window->handleEvent(e);
+    if(e.type == sf::Event::Resized) {
+        resize(e.size.width, e.size.height);
+    }
+}
+
+void GameScene::resize(int w, int h) {
+    ui_view.setSize(w,h);
+    ui_view.setCenter(w/2, h/2);
+    control_system->resize(w,h);
+    dialogue_window->resize(w,h);
 }
 
 void GameScene::update(float dt) {
+    auto view = registry.view<const position, const render_tile>();
     control_system->update(dt);
     
     if(!control_system->isPlayerTurn()) {
@@ -55,6 +68,7 @@ void GameScene::update(float dt) {
 
 void GameScene::render() {
     window.setView(control_system->getView());
+    
     map->draw(window);
     
     // Draw all tiles with a position and renderable tile
@@ -65,4 +79,5 @@ void GameScene::render() {
     
     window.setView(ui_view);
     dialogue_window->render(window);
+    invwindow.render(window);
 }

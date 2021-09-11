@@ -23,6 +23,8 @@ class DialogueWindow {
         void clearOptions();
         void jumpToEnd();
         
+        void resize(int w, int h);
+        
         int getSelected();
        
         void setVisible(bool v);

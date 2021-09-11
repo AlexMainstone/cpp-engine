@@ -60,11 +60,17 @@ Map *MapLoader::load(std::string path, texture_cache &tcache) {
         // if collision layer
         std::cout << "Loaded Layer: " << child->Attribute("name") << std::endl;
         if(!std::strcmp(child->Attribute("name"), "Collision")) {
-            std::vector<std::vector<bool>> collision_map;
+        std::vector<std::vector<int>> collision_map;
             for(auto x : tile_data) {
-                std::vector<bool> row;
+                std::vector<int> row;
                 for(auto y : x) {
-                    row.push_back((y != 0));
+                    if(y == 1037) {
+                        row.push_back(1);
+                    } else if(y == 35) {
+                        row.push_back(2);
+                    } else {
+                        row.push_back(0);
+                    }
                 }
                 collision_map.push_back(row);
             }

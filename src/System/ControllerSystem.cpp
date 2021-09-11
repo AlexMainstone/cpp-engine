@@ -88,13 +88,19 @@ void ControllerSystem::handleEvent(sf::Event e) {
     }
 }
 
+void ControllerSystem::resize(int w, int h) {
+    game_view.setSize(w, h);
+    game_view.zoom(0.25);
+}
+
 void ControllerSystem::move(int x, int y) {
     moving = true;
     player_turn = false; // Sets the player turn to false    
     turn_progress = 0;
     auto view = reg.view<position, const controlled>();
     for(auto [entity, pos, cntrl] : view.each()) {
-        if (map->checkCollision(pos.x + x, pos.y + y) | solidEntity(pos.x + x, pos.y + y)) {
+
+        if (map->checkCollision(pos.x + x, pos.y + y) != 0 || solidEntity(pos.x + x, pos.y + y)) {
             moving = false;
             pos.target_x = 0;
             pos.target_y = 0;

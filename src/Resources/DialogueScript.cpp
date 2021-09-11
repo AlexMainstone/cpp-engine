@@ -5,6 +5,7 @@ DialogueScript::DialogueScript(DialogueWindow *dwindow) : dwindow(dwindow) {
     lua_state.set_function("add_text", &DialogueWindow::addTexti, dwindow);
     lua_state.set_function("add_option", &DialogueWindow::addOption, dwindow);
     lua_state.set_function("clear_options", &DialogueWindow::clearOptions, dwindow);
+    lua_state.set_function("close_dialogue", &DialogueWindow::setVisible, dwindow);
     lua_state.set_function("jump_end", &DialogueWindow::jumpToEnd, dwindow);
 }
 
@@ -15,7 +16,6 @@ void DialogueScript::addOption(const char *option) {
     dwindow->addOption(option);
 }
 
-#include<iostream>
 void DialogueScript::update(float dt) {
     int selected = dwindow->getSelected();
     if(selected != 0) {
